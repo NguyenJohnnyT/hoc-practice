@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 
-type Todo = {
+export type Todo = {
   userId: number;
   id: number;
   title: string;
@@ -20,19 +20,43 @@ const Row: React.FC<{ todo: Todo }> = ({ todo }) => {
 };
 
 function App() {
-  const [json, setJson] = useState<Todo[]>();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredResults, setFilteredResults] = useState<Todo[]>();
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(
         "https://jsonplaceholder.typicode.com/todos/"
       );
       const data = (await response.json()) as Todo[];
-      setJson(data);
+      setFilteredResults(data);
     };
     fetchData();
   }, []);
+
+  const memo = useMemo(() => {
+    const upSearchTerm = searchTerm.toUpperCase();
+    return filteredResults?.filter((todo) => {
+      let str = `${todo.id} ${todo.title}`.toUpperCase();
+      return str.indexOf(upSearchTerm) > -1;
+    });
+  }, [searchTerm, filteredResults]);
+
   return (
-    <div className="App">{json && json.map((todo) => <Row todo={todo} />)}</div>
+    <div className="App" style={{ padding: "0 50px" }}>
+      {memo && (
+        <>
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="search"
+          />
+          {memo.map((todo) => (
+            <Row todo={todo} />
+          ))}
+        </>
+      )}
+    </div>
   );
 }
 
