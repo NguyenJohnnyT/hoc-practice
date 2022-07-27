@@ -36,26 +36,31 @@ function App() {
   const memo = useMemo(() => {
     const upSearchTerm = searchTerm.toUpperCase();
     return filteredResults?.filter((todo) => {
-      let str = `${todo.id} ${todo.title}`.toUpperCase();
+      let str = `${todo.id} ${todo.title} ${
+        todo.completed === true ? "completed" : "incomplete"
+      }`.toUpperCase();
       return str.indexOf(upSearchTerm) > -1;
     });
   }, [searchTerm, filteredResults]);
 
   return (
     <div className="App" style={{ padding: "0 50px" }}>
+      {/* Without HOC */}
       {memo && (
         <>
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="search"
+            placeholder="search by id | title | completed | incomplete"
+            style={{ width: "100%" }}
           />
           {memo.map((todo) => (
-            <Row todo={todo} />
+            <Row key={todo.id} todo={todo} />
           ))}
         </>
       )}
+      {/* With HOC */}
     </div>
   );
 }
