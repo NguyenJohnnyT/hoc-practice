@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/hoc-practice/static/css/main.e6c13ad2.css",
+    "main.js": "/hoc-practice/static/js/main.97cb28c8.js",
+    "index.html": "/hoc-practice/index.html",
+    "main.e6c13ad2.css.map": "/hoc-practice/static/css/main.e6c13ad2.css.map",
+    "main.97cb28c8.js.map": "/hoc-practice/static/js/main.97cb28c8.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.97cb28c8.js"
+  ]
+}
